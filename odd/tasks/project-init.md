@@ -61,6 +61,7 @@ Decisions made by the writer (to confirm):
 - No dependency build scripts were blocked by pnpm 11; nothing added to `onlyBuiltDependencies`.
 - Placeholder appId `com.example.moneytracker` in `capacitor.config.ts` (to confirm before `cap add android`). Manifest has no icons. No service worker / vite-plugin-pwa: offline support still needs that decision.
 - Playwright webServer: `pnpm build && pnpm preview --port 4173`.
+- Follow-up (user-approved): `ui` moved from denylist to allowlist in `.oxlintrc.json` so infrastructure packages (e.g. `@capacitor-community/sqlite`) cannot be imported from `ui`. Verified: `ui` importing `@capacitor-community/sqlite` fails lint (exit 1); `react` and `zod` in `ui` pass.
 
 Known gap: Chromium could not be downloaded in this environment (network timeouts to storage.googleapis.com), so `pnpm test:e2e` has not passed here. Run `pnpm exec playwright install chromium` in a networked shell.
 

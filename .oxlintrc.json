@@ -115,6 +115,25 @@
                 "message": "ui no puede importar infrastructure; el cableado va en la composition root (src/main.tsx)."
               },
               {
+                "group": [
+                  "**",
+                  "!react",
+                  "!react-dom",
+                  "!react-dom/**",
+                  "!@tanstack/react-router",
+                  "!@tanstack/react-query",
+                  "!zod",
+                  "!zod/**",
+                  "!vitest",
+                  "!@testing-library/**",
+                  "!./**",
+                  "!@domain/**",
+                  "!@application/**",
+                  "!@ui/**"
+                ],
+                "message": "ui solo puede importar sus dependencias de UI, domain y application. Si es una dependencia de UI nueva, agrégala a la allowlist en .oxlintrc.json."
+              },
+              {
                 "group": ["../**"],
                 "message": "Usa los alias @domain/*, @application/* o @ui/* en vez de rutas relativas largas."
               }
