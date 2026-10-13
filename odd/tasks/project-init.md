@@ -59,7 +59,8 @@ Decisions made by the writer (to confirm):
 - Boundaries: oxlint `no-restricted-imports` per-folder overrides (allowlist for domain/application, denylist for infrastructure/ui; `../**` banned to force aliases), `no-restricted-globals` (window, document, navigator, storage, indexedDB, fetch) in domain/application. `vitest` allowed in domain/application for tests.
 - oxfmt: `semi: false`, `singleQuote: true` (template style); ignores `research`, `odd`, `AGENTS.md`, lockfile.
 - No dependency build scripts were blocked by pnpm 11; nothing added to `onlyBuiltDependencies`.
-- Placeholder appId `com.example.moneytracker` in `capacitor.config.ts` (to confirm before `cap add android`). Manifest has no icons. No service worker / vite-plugin-pwa: offline support still needs that decision.
+- Placeholder appId `com.example.moneytracker` in `capacitor.config.ts` (to confirm before `cap add android`). Manifest has no icons.
+- Offline (user-approved follow-up): `vite-plugin-pwa` 2.0.0 + `workbox-build` (peer) added as devDependencies; `registerType: 'autoUpdate'`, `manifest: false` (keeps the hand-written `public/manifest.webmanifest`). `pnpm build` generates `sw.js`, `registerSW.js` and precaches index.html, the JS bundle, `registerSW.js` and the manifest. Not verified in a real browser (offline reload, installability). Installability still needs 192/512 px icons.
 - Playwright webServer: `pnpm build && pnpm preview --port 4173`.
 - Follow-up (user-approved): `ui` moved from denylist to allowlist in `.oxlintrc.json` so infrastructure packages (e.g. `@capacitor-community/sqlite`) cannot be imported from `ui`. Verified: `ui` importing `@capacitor-community/sqlite` fails lint (exit 1); `react` and `zod` in `ui` pass.
 
