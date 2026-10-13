@@ -1,6 +1,6 @@
 # 08 - Backlog
 
-Origen: entrevista y investigación (`00-indice.md`, `01`-`07`). Estado: borrador para revisar antes de implementar. Nada de esto está construido.
+Origen: entrevista y investigación (`00-indice.md`, `01`-`07`). Estado: borrador. El proyecto base está inicializado (PR #2: stack, capas y tooling), pero ninguna funcionalidad de v1 está construida.
 
 ## Índice
 
@@ -23,7 +23,7 @@ Origen: entrevista y investigación (`00-indice.md`, `01`-`07`). Estado: borrado
 | Ingesta | Manual + importación de estados de cuenta; sin sincronización bancaria |
 | Extracción | Local primero; tercero con anonimización después |
 | Primer banco | BBVA crédito |
-| Plataforma | PWA (Android, iOS, escritorio); stack a definir en implementación |
+| Plataforma | PWA (Android, iOS, escritorio) empaquetada con Capacitor para tiendas; stack en las filas siguientes |
 | Datos | Locales primero; nube después |
 | Respaldo v1 | Export/import manual JSON/CSV |
 | Identidad de datos | UUID + owner desde v1 |
@@ -31,6 +31,11 @@ Origen: entrevista y investigación (`00-indice.md`, `01`-`07`). Estado: borrado
 | Coincidencias | Sistema propone manual↔importado; el usuario confirma |
 | Categorías | Un nivel + etiquetas; reglas por texto del concepto |
 | Categorías (cambios) | IDs estables; renombrar/fusionar no rompe historial |
+| Stack | React + Vite + TypeScript, TanStack Router y Query, zod, pnpm; un solo paquete (monorepo con Turborepo cuando haya segunda app o backend) |
+| Arquitectura | Hexagonal: `domain`, `application`, `infrastructure`, `ui`; límites impuestos con oxlint (ver `AGENTS.md`) |
+| Persistencia local | SQLite nativo con `@capacitor-community/sqlite`; `localStorage` e IndexedDB no son almacén de datos financieros en nativo (el SO puede purgarlos) |
+| Calidad | oxlint + oxfmt; Vitest + Testing Library; Playwright (Chromium) |
+| Compilación móvil | En la nube (GitHub Actions o Codemagic); sin Android Studio local por limitaciones de hardware |
 
 ## Fase 0: verificaciones previas
 
@@ -80,7 +85,7 @@ Antes de escribir la app. Cada una cierra un "(sin verificar)" de la investigaci
 
 ### Calidad
 - [ ] **V1-24** Formato es-MX (MXN, fechas), modo oscuro, texto grande.
-- [ ] **V1-25** Funciona sin conexión.
+- [ ] **V1-25** Funciona sin conexión. (Service worker con `vite-plugin-pwa` configurado; falta verificar la recarga offline en un navegador real.)
 - [ ] **V1-26** Tests con estados de cuenta sintéticos (golden files).
 - [ ] **V1-27** Resumen mensual simple: total y por categoría.
 
@@ -105,7 +110,7 @@ Ordenadas por prioridad tentativa; no se descarta ninguna.
 | P3-3 | Subcategorías | V1-9 |
 | P3-4 | División de un gasto en varias categorías | V1-7 |
 | P3-5 | Captura por notificación, voz o widget | V1-1 |
-| P3-6 | Envoltura nativa (Capacitor/Tauri/otra) o app nativa | Evaluar tras F0-4 |
+| P3-6 | Publicación en tiendas con Capacitor (configuración base ya en el repo; faltan `appId` definitivo, `cap add android`, iconos y CI) | F0-4, F0-5 |
 | P4-1 | Sincronización multi-dispositivo | UUID, owner, tombstones |
 | P4-2 | Multiusuario y nube | P4-1 |
 | P4-3 | Gastos compartidos | P4-2 |
@@ -115,10 +120,10 @@ Ordenadas por prioridad tentativa; no se descarta ninguna.
 
 ## Decisiones diferidas
 
-- **Stack** (framework, base de datos local, librería PDF): se decide en implementación; evaluar con los resultados de F0-2 y F0-4.
-- **Motor de almacenamiento local**: IndexedDB vs SQLite en wasm/OPFS.
+- **Librería PDF** para la importación: se decide con los resultados de F0-2. El resto del stack quedó decidido (ver Decisiones cerradas).
+- **Almacenamiento local en la versión web**: SQLite nativo ya decidido para Capacitor; falta decidir qué usa la PWA en navegador (IndexedDB o SQLite en wasm/OPFS) y si comparte datos con la app nativa.
 - **Estrategia de sincronización** (CRDT, op-log, last-write-wins): decidir al abordar P4-1.
-- **Distribución** (PWA pura vs tiendas): decidir tras F0-4/F0-5.
+- **Distribución** (PWA pura vs tiendas): decidir tras F0-4/F0-5. Capacitor ya está configurado como vía a tiendas.
 
 ## Riesgos
 
