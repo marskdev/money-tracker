@@ -1,0 +1,146 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "typescript", "oxc"],
+  "categories": { "correctness": "error" },
+  "ignorePatterns": ["dist", "coverage", "playwright-report", "test-results", "research"],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  },
+  "overrides": [
+    {
+      "files": ["src/domain/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["**", "!zod", "!zod/**", "!vitest", "!./**", "!@domain/**"],
+                "message": "domain solo puede importar zod y su propia capa (@domain/* o ./)."
+              },
+              {
+                "group": ["../**"],
+                "message": "Usa el alias @domain/* en vez de rutas relativas largas."
+              }
+            ]
+          }
+        ],
+        "no-restricted-globals": [
+          "error",
+          "window",
+          "document",
+          "navigator",
+          "localStorage",
+          "sessionStorage",
+          "indexedDB",
+          "fetch"
+        ]
+      }
+    },
+    {
+      "files": ["src/application/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "**",
+                  "!zod",
+                  "!zod/**",
+                  "!vitest",
+                  "!./**",
+                  "!@domain/**",
+                  "!@application/**"
+                ],
+                "message": "application solo puede importar domain (@domain/*) y su propia capa."
+              },
+              {
+                "group": ["../**"],
+                "message": "Usa los alias @domain/* o @application/* en vez de rutas relativas largas."
+              }
+            ]
+          }
+        ],
+        "no-restricted-globals": [
+          "error",
+          "window",
+          "document",
+          "navigator",
+          "localStorage",
+          "sessionStorage",
+          "indexedDB",
+          "fetch"
+        ]
+      }
+    },
+    {
+      "files": ["src/infrastructure/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "@ui/**",
+                  "**/ui/**",
+                  "react",
+                  "react-dom",
+                  "react-dom/**",
+                  "@tanstack/react-*"
+                ],
+                "message": "infrastructure no puede importar ui ni React."
+              },
+              {
+                "group": ["../**"],
+                "message": "Usa los alias @domain/*, @application/* o @infrastructure/* en vez de rutas relativas largas."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["src/ui/**"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["@infrastructure/**", "**/infrastructure/**"],
+                "message": "ui no puede importar infrastructure; el cableado va en la composition root (src/main.tsx)."
+              },
+              {
+                "group": [
+                  "**",
+                  "!react",
+                  "!react-dom",
+                  "!react-dom/**",
+                  "!@tanstack/react-router",
+                  "!@tanstack/react-query",
+                  "!zod",
+                  "!zod/**",
+                  "!vitest",
+                  "!@testing-library/**",
+                  "!./**",
+                  "!@domain/**",
+                  "!@application/**",
+                  "!@ui/**"
+                ],
+                "message": "ui solo puede importar sus dependencias de UI, domain y application. Si es una dependencia de UI nueva, agrégala a la allowlist en .oxlintrc.json."
+              },
+              {
+                "group": ["../**"],
+                "message": "Usa los alias @domain/*, @application/* o @ui/* en vez de rutas relativas largas."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

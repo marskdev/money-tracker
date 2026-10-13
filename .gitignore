@@ -14,3 +14,4 @@ android/local.properties
 playwright-report/
 test-results/
 .DS_Store
+.atl/
