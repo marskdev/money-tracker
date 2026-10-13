@@ -34,14 +34,14 @@ Stack and architecture were agreed in conversation (2026-10-11/12). The repo is 
 - Delivery strategy: `ask-on-risk`. Forecast well under 400 authored lines per slice.
 
 ## Tasks
-- [ ] T1 Git repo, `.gitignore`, baseline commit with `AGENTS.md` (route: inline)
-- [ ] T2 Vite + React + TS scaffold with pnpm, template stripped (route: delegated)
-- [ ] T3 Layer folders, aliases (tsconfig + Vite), placeholder per layer (route: delegated)
-- [ ] T4 oxlint + oxfmt config, boundary rules, scripts (route: delegated)
-- [ ] T5 zod + Vitest + Testing Library, one domain test (route: delegated)
-- [ ] T6 TanStack Router + Query minimal wiring, one placeholder route (route: delegated)
-- [ ] T7 Capacitor config + sqlite plugin deps, PWA manifest (route: delegated)
-- [ ] T8 Playwright (Chromium) config + one smoke test (route: delegated)
+- [x] T1 Git repo, `.gitignore`, baseline commit with `AGENTS.md` (route: inline) — 15d1975
+- [x] T2 Vite + React + TS scaffold with pnpm, template stripped (route: delegated) — 5fb70fc
+- [x] T3 Layer folders, aliases (tsconfig + Vite), placeholder per layer (route: delegated) — a1043ec
+- [x] T4 oxlint + oxfmt config, boundary rules, scripts (route: delegated) — 9d3c330
+- [x] T5 zod + Vitest + Testing Library, one domain test (route: delegated) — ab784e0
+- [x] T6 TanStack Router + Query minimal wiring, one placeholder route (route: delegated) — 6d9f903
+- [x] T7 Capacitor config + sqlite plugin deps, PWA manifest (route: delegated) — b92f253
+- [x] T8 Playwright (Chromium) config + one smoke test (route: delegated) — ea3d989
 
 ## Acceptance
 - `pnpm install`, `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test`, `pnpm build` all pass.
@@ -49,10 +49,30 @@ Stack and architecture were agreed in conversation (2026-10-11/12). The repo is 
 - `pnpm dev` serves the placeholder route.
 
 ## Progress
-Not started.
+T1-T8 done on `feat/project-init`, one commit each (hashes next to each task). T2-T8 route: delegated (single writer), trigger: writer rule (2+ non-trivial files per task).
+
+Decisions made by the writer (to confirm):
+- Vite 8 native `resolve.tsconfigPaths: true` for aliases (no extra dependency); Vitest reuses it.
+- Vitest config lives in `vite.config.ts` (`defineConfig` from `vitest/config`), environment `jsdom`, include `src/**/*.test.{ts,tsx}` so Playwright specs in `e2e/` are never picked up.
+- Added `@testing-library/dom` (required peer of `@testing-library/react`) and `jsdom`.
+- Code-based routing in TanStack Router (no router Vite plugin, no generated route tree).
+- Boundaries: oxlint `no-restricted-imports` per-folder overrides (allowlist for domain/application, denylist for infrastructure/ui; `../**` banned to force aliases), `no-restricted-globals` (window, document, navigator, storage, indexedDB, fetch) in domain/application. `vitest` allowed in domain/application for tests.
+- oxfmt: `semi: false`, `singleQuote: true` (template style); ignores `research`, `odd`, `AGENTS.md`, lockfile.
+- No dependency build scripts were blocked by pnpm 11; nothing added to `onlyBuiltDependencies`.
+- Placeholder appId `com.example.moneytracker` in `capacitor.config.ts` (to confirm before `cap add android`). Manifest has no icons. No service worker / vite-plugin-pwa: offline support still needs that decision.
+- Playwright webServer: `pnpm build && pnpm preview --port 4173`.
+
+Known gap: Chromium could not be downloaded in this environment (network timeouts to storage.googleapis.com), so `pnpm test:e2e` has not passed here. Run `pnpm exec playwright install chromium` in a networked shell.
 
 ## Verification evidence
-None yet.
+- `pnpm install --frozen-lockfile` (clean node_modules): ok
+- `pnpm lint`: 0 errors, 0 warnings
+- `pnpm format:check`: all matched files use the correct format
+- `pnpm typecheck`: exit 0
+- `pnpm test`: 2 files, 3 tests passed
+- `pnpm build`: built, dist contains index.html, assets, manifest.webmanifest
+- Boundary proof: `src/domain/violation.ts` importing `@ui/App` -> `pnpm lint` exit 1 (`no-restricted-imports`); after removal exit 0. Also verified failing: domain->react, domain->@capacitor/core, domain->../ui relative, application->@infrastructure/@ui, infrastructure->@ui/../ui, ui->@infrastructure/../infrastructure, domain using `window`.
+- `pnpm test:e2e`: FAILED to launch browser (Chromium not installed; download failed). Web server (build + preview) did start. Not verified.
 
 ## Next step
-T1.
+Install Chromium where network allows and run `pnpm test:e2e`; confirm appId and the offline/PWA decision; then open the PR (slice under ~400 authored lines is not guaranteed, check before pushing).
