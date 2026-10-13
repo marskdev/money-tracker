@@ -1,0 +1,12 @@
+import { afterEach, describe, expect, it } from 'vitest'
+import { cleanup, render, screen } from '@testing-library/react'
+import { App } from '@ui/App'
+
+afterEach(cleanup)
+
+describe('App', () => {
+  it('muestra el título', () => {
+    render(<App />)
+    expect(screen.getByRole('heading', { name: 'Money Tracker' })).toBeTruthy()
+  })
+})
