@@ -1,3 +1,13 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { RouterProvider } from '@tanstack/react-router'
+import { router } from '@ui/router'
+
+const queryClient = new QueryClient()
+
 export function App() {
-  return <h1>Money Tracker</h1>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  )
 }

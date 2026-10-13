@@ -5,8 +5,8 @@ import { App } from '@ui/App'
 afterEach(cleanup)
 
 describe('App', () => {
-  it('muestra el título', () => {
+  it('muestra la ruta placeholder', async () => {
     render(<App />)
-    expect(screen.getByRole('heading', { name: 'Money Tracker' })).toBeTruthy()
+    expect(await screen.findByRole('heading', { name: 'Money Tracker' })).toBeTruthy()
   })
 })
