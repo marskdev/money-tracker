@@ -7,6 +7,6 @@ afterEach(cleanup)
 describe('App', () => {
   it('muestra la ruta placeholder', async () => {
     render(<App />)
-    expect(await screen.findByRole('heading', { name: 'Money Tracker' })).toBeTruthy()
+    expect(await screen.findByRole('heading', { name: 'Kuenty' })).toBeTruthy()
   })
 })

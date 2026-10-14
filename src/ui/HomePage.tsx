@@ -1,3 +1,3 @@
 export function HomePage() {
-  return <h1>Money Tracker</h1>
+  return <h1>Kuenty</h1>
 }

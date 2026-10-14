@@ -1,9 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  // PLACEHOLDER: confirmar appId definitivo antes de ejecutar `cap add android`.
-  appId: 'com.example.moneytracker',
-  appName: 'Money Tracker',
+  appId: 'dev.marsk.kuenty',
+  appName: 'Kuenty',
   webDir: 'dist',
 }
 
