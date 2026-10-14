@@ -9,6 +9,8 @@ Archivos:
 - [06-ux-captura-categorias.md](06-ux-captura-categorias.md): captura rápida, diseño de formulario, categorías, revisión de importados.
 - [07-anonimizacion.md](07-anonimizacion.md): datos sensibles en estados de cuenta, herramientas de redacción, terceros, LFPDPPP.
 - [08-backlog.md](08-backlog.md): decisiones cerradas, verificaciones previas, v1 solo gastos, fases posteriores, riesgos.
+- [09-benchmark-top5.md](09-benchmark-top5.md): benchmark de Money Manager, Cashew, Spendee, Wallet y YNAB; matriz de módulos, brechas contra el backlog.
+- [10-entrevistas.md](10-entrevistas.md): rondas de entrevista y registro de decisiones a partir del benchmark.
 
 Estado: investigación inicial. Reddit y varios foros bloquearon el fetch; ver limitaciones en cada archivo. Todo lo marcado "(sin verificar)" requiere confirmación antes de decidir con ello.
 
