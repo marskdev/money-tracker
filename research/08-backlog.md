@@ -36,6 +36,7 @@ Origen: entrevista y investigación (`00-indice.md`, `01`-`07`). Estado: borrado
 | Persistencia local | SQLite nativo con `@capacitor-community/sqlite`; `localStorage` e IndexedDB no son almacén de datos financieros en nativo (el SO puede purgarlos) |
 | Calidad | oxlint + oxfmt; Vitest + Testing Library; Playwright (Chromium) |
 | Compilación móvil | En la nube (GitHub Actions o Codemagic); sin Android Studio local por limitaciones de hardware |
+| Nombre | Kuenty; `appId` `dev.marsk.kuenty` (dominio `marsk.dev`). Descartados Centi (ya existe en iOS), Quincy/Quinci (marcas cercanas en software) y Kuenti (`.app`, `.com` y usuario de GitHub ocupados) |
 
 ## Fase 0: verificaciones previas
 
@@ -47,6 +48,7 @@ Antes de escribir la app. Cada una cierra un "(sin verificar)" de la investigaci
 - [ ] **F0-4** Probar en un iPhone real: ¿persisten los datos de una PWA instalada tras >7 días? ¿qué pasa al borrar el icono?
 - [ ] **F0-5** Probar en iOS instalado: descarga/exportación de archivos, compartir, cámara.
 - [ ] **F0-6** Definir muestras sintéticas/anonimizadas para tests (nunca datos reales en el repo).
+- [ ] **F0-7** Comprar los dominios `kuenty.app`, `kuenty.com`, `kuenty.mx` y `kuenty.com.mx`. Estaban sin registrar el 2026-10-13 (RDAP/whois); confirmar en el registrador que no sean *premium* ni reservados y el precio.
 
 ## Fase 1 (v1): solo gastos
 
