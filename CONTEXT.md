@@ -37,3 +37,7 @@ _Avoid_: Category, label, hashtag
 **Categorization rule** (_Regla de categorización_):
 An instruction that assigns a Category to any Transaction whose description contains given text. Applied automatically, mainly to imported statement lines.
 _Avoid_: Rule (too generic), mapping, auto-category
+
+**Pending review** (_Por revisar_):
+The state of an imported Transaction that the user has not yet checked. It is excluded from totals and summaries until reviewed; totals show the sum of Pending review Transactions as a separate figure.
+_Avoid_: Inbox, draft, staging, unconfirmed (reserved for Conversion status)

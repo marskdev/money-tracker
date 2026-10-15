@@ -73,12 +73,13 @@ Antes de escribir la app. Cada una cierra un "(sin verificar)" de la investigaci
 
 ### Importación
 - [ ] **V1-14** Cargar PDF de BBVA crédito, extraer movimientos 100 % local.
-- [ ] **V1-15** Pantalla de revisión antes de confirmar (bandeja): editar, descartar, categorizar en bloque.
+- [ ] **V1-15** Lo importado entra marcado *por revisar*; se revisa en la lista principal: editar, descartar, categorizar en bloque.
 - [ ] **V1-16** Reglas de categorización por texto del concepto.
 - [ ] **V1-17** Deduplicación idempotente al reimportar el mismo estado.
-- [ ] **V1-18** Cuadrar contra saldos/total del estado de cuenta antes de aceptar.
+- [ ] **V1-18** Cuadrar contra saldos/total del estado de cuenta al revisar el lote.
 - [ ] **V1-19** Coincidencias manual↔importado con confirmación; al coincidir, el gasto USD pasa a confirmado.
 - [ ] **V1-20** Arquitectura de parsers por banco (plugin) para sumar bancos sin tocar el núcleo.
+- [ ] **V1-28** Deshacer un lote de importación completo.
 
 ### Datos y respaldo
 - [ ] **V1-21** Exportar todo a JSON y CSV; importar el JSON.
@@ -90,6 +91,7 @@ Antes de escribir la app. Cada una cierra un "(sin verificar)" de la investigaci
 - [ ] **V1-25** Funciona sin conexión. (Service worker con `vite-plugin-pwa` configurado; falta verificar la recarga offline en un navegador real.)
 - [ ] **V1-26** Tests con estados de cuenta sintéticos (golden files).
 - [ ] **V1-27** Resumen mensual simple: total y por categoría.
+- [ ] **V1-29** Totales y resúmenes excluyen lo *por revisar*; los totales muestran su suma como cifra aparte.
 
 ## Fases posteriores
 

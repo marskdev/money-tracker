@@ -46,7 +46,7 @@ Desbloquea: diseño de V1-1 a V1-5.
 | # | Pregunta | Propuesta por defecto | Afecta |
 |---|---|---|---|
 | 4 | ¿Cuántos gastos registras al día y cuántos toques es tu límite? | Hasta 3 toques con defaults (V1-1) | V1-1 |
-| 5 | ¿Obligatorio solo el monto, o monto y categoría? ¿"Sin categoría" es válido y se resuelve en la bandeja? | Solo el monto es obligatorio; "sin categoría" válido | V1-1, V1-15 |
+| 5 | ¿Obligatorio solo el monto, o monto y categoría? ¿"Sin categoría" es válido y se resuelve al revisar lo *por revisar*? | Solo el monto es obligatorio; "sin categoría" válido | V1-1, V1-15 |
 | 6 | ¿La Cuenta por defecto es la última usada, la más frecuente para esa categoría o la que fijes por comercio? | Última usada | V1-1 |
 | 7 | ¿Necesitas "guardar y capturar otro" y favoritos o plantillas en v1, o bastan los recientes? | Solo recientes y frecuentes (V1-3) | V1-3 |
 
@@ -73,7 +73,7 @@ Desbloquea: V1-14 a V1-20; brechas 3 y 4 del benchmark.
 |---|---|---|---|
 | 15 | Si borras un Gasto importado y reimportas el mismo estado, ¿debe reaparecer o recordar el descarte? | Recordar el descarte | V1-17, nuevo ID |
 | 16 | ¿Qué tolerancia aceptas para proponer un Emparejamiento USD: ±N días y ±X % de monto sobre el estimado? | ±3 días y ±5 % (YNAB usa 10 días y monto exacto; ajustar con datos reales) | V1-19 |
-| 17 | ¿Quieres deshacer un lote completo (rollback) y verlo en la bandeja antes de confirmar, o basta confirmar por línea? | Bandeja previa más deshacer el lote | V1-15, nuevo ID |
+| 17 | Lo importado entra *por revisar* (V1-15). ¿Quieres poder deshacer un lote completo (rollback), o basta descartar por línea? | Deshacer el lote completo además de descartar por línea | V1-15, V1-28 |
 | 18 | ¿Guardar siempre el texto original del banco junto al nombre limpio, aunque dupliques datos? | Sí, siempre | V1-16, nuevo ID |
 | 19 | ¿Las Reglas de categorización aplican a Movimientos manuales, a importados o a ambos, y solo a nuevos o también al histórico? | Solo importados y nuevos; aplicar al histórico a petición | V1-16 |
 | 20 | ¿Aprobación por swipe tipo tarjetas (YNAB iOS) o por lista con selección múltiple? | Lista con selección múltiple (V1-15) | V1-15 |
