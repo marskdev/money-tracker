@@ -32,7 +32,7 @@ Why: the layers are expected to become separate packages when a second app or ba
 
 ## Workflow
 
-After a PR merges, switch to `main`, pull, and delete the local branch of that PR.
+After a PR merges, switch to `main`, pull, and delete the branch of that PR locally and on the remote, without asking.
 
 ## Agent skills
 
