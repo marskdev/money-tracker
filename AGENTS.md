@@ -30,6 +30,10 @@ Rules:
 
 Why: the layers are expected to become separate packages when a second app or backend reuses `domain`/`application`. Respecting the boundaries now keeps that migration mechanical.
 
+## Workflow
+
+After a PR merges, switch to `main`, pull, and delete the local branch of that PR.
+
 ## Agent skills
 
 ### Issue tracker
