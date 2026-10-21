@@ -14,6 +14,14 @@ _Avoid_: Entry, record, movement
 A Transaction of kind outflow. The only kind exposed in v1.
 _Avoid_: Spending, charge
 
+**Refund** (_Reembolso_):
+A Transaction that returns money for an earlier Expense, whether from a merchant or from a person. Not linked to the original Expense; it subtracts from its Category in the month it arrives.
+_Avoid_: Credit, reversal, payment
+
+**Card payment** (_Pago de tarjeta_):
+A Transaction that records money paid to a credit card from another Account. It is not an Expense and stays out of expense totals.
+_Avoid_: Payment, transfer, settlement
+
 **Account** (_Cuenta_):
 A place that holds money: cash, debit, credit or wallet. Has its own currency.
 _Avoid_: Wallet, source
