@@ -110,32 +110,32 @@ Se llena durante las sesiones. "Acepto" significa que se mantiene la propuesta p
 
 | # | Respuesta | Decisión | IDs del backlog a crear o cambiar | Fecha |
 |---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
-| 6 | | | | |
-| 7 | | | | |
-| 8 | | | | |
-| 9 | | | | |
-| 10 | | | | |
-| 11 | | | | |
-| 12 | | | | |
-| 13 | | | | |
-| 14 | | | | |
-| 15 | | | | |
-| 16 | | | | |
-| 17 | | | | |
-| 18 | | | | |
-| 19 | | | | |
-| 20 | | | | |
-| 21 | | | | |
-| 22 | | | | |
-| 23 | | | | |
-| 24 | | | | |
-| 25 | | | | |
-| 26 | | | | |
-| 27 | | | | |
-| 28 | | | | |
-| 29 | | | | |
+| 1 | No hay historial que migrar de Money Manager | Sin importador de historial; se usan datos mock (sintéticos) | Descarta la brecha 1 del benchmark; enlaza con F0-6 | 2026-10-20 |
+| 2 | Sin objeto: no hay historial | Derivada de la 1 | Ninguno | 2026-10-20 |
+| 3 | Funciones mínimas; sin recuerdo de cuáles usaba más | v1 se mantiene mínimo, sin añadir funciones de Money Manager (calendario, favoritos, subdivisas, doble partida) hasta que el uso real lo pida | Ninguno; alcance v1 sin cambios | 2026-10-20 |
+| 4 | 3 toques está bien | Acepto la propuesta: hasta 3 toques con valores por defecto | V1-1 sin cambios | 2026-10-20 |
+| 5 | Acepto la propuesta | Solo el monto es obligatorio; "sin categoría" es válido en gastos manuales | V1-1, V1-15 sin cambios | 2026-10-20 |
+| 6 | Acepto la propuesta | Cuenta por defecto = la última usada | V1-1 sin cambios | 2026-10-20 |
+| 7 | Acepto la propuesta | Solo recientes y frecuentes; sin favoritos ni plantillas en v1 | V1-3 sin cambios | 2026-10-20 |
+| 8 | Android hoy; sin iPhone por ahora, con migración a iPhone prevista | Android es la plataforma de prueba; iOS se contempla en el diseño (respaldo exportable, sin dependencias solo-Android) | F0-4 y F0-5 quedan bloqueadas hasta tener un iPhone; V1-21 sirve también para migrar de Android a iPhone | 2026-10-20 |
+| 9 | Acepto la propuesta | Pagos y abonos se importan como Movimientos de otro tipo, fuera del resumen de gastos, salvo reembolsos (ver #10) | V1-7, V1-27 sin cambios | 2026-10-20 |
+| 10 | Acepto la propuesta | Reembolso = Movimiento suelto que resta en su Categoría el mes en que llega; el usuario lo marca al revisar (el parser no distingue pago de tarjeta de reembolso) | V1-7, V1-27; enlazar con el gasto original queda para después | 2026-10-20 |
+| 11 | Acepto la propuesta | Sin campo "excluir de reportes"; se resuelve con una Etiqueta (p. ej. `reembolsable`) y filtros | V1-27 sin cambios | 2026-10-20 |
+| 12 | Acepto la propuesta | La moneda de una Cuenta se bloquea tras su primer Movimiento; para otra moneda se crea otra Cuenta | V1-6 sin cambios | 2026-10-20 |
+| 13 | Acepto la propuesta | Mes calendario en v1; el corte por tarjeta llega con P2-7 | V1-27, P2-7 sin cambios | 2026-10-20 |
+| 14 | Acepto la propuesta | Cuentas y Categorías solo se archivan (ocultas, con historial); sin borrado | V1-9 sin cambios | 2026-10-20 |
+| 15 | Acepto la propuesta | Al reimportar, recordar los descartes: las líneas borradas no reaparecen | V1-17, V1-31 | 2026-10-20 |
+| 16 | Acepto la propuesta | Emparejamiento propuesto con ±3 días y ±5 % de monto sobre el estimado; valores iniciales a ajustar con estados reales (F0-1) | V1-19 sin cambios | 2026-10-20 |
+| 17 | Acepto la propuesta | Deshacer el lote completo además de descartar por línea | V1-28 (ya en el backlog) | 2026-10-20 |
+| 18 | Acepto la propuesta | Guardar siempre el texto original del banco junto al nombre limpio | V1-16, V1-32 | 2026-10-20 |
+| 19 | Acepto la propuesta | Las Reglas de categorización aplican solo a Movimientos importados y nuevos; aplicarlas al histórico solo a petición | V1-16 sin cambios | 2026-10-20 |
+| 20 | Probar ambas y decidir después si se conserva una o las dos | Construir lista con selección múltiple y swipe de tarjetas como alternativas de la misma revisión; la decisión final queda diferida | V1-15, V1-33 | 2026-10-20 |
+| 21 | Acepto la propuesta | El estimado usa el último FIX publicado antes de la fecha de la compra | V1-11, P2-9 sin cambios; F0-3 sigue pendiente de verificar la serie | 2026-10-20 |
+| 22 | Acepto la propuesta | Si Banxico falla, se acepta una fuente alterna de tipo de cambio, marcada como tal en el Estado de conversión | V1-11, V1-12 sin cambios | 2026-10-20 |
+| 23 | Acepto la propuesta | Respaldo JSON con cifrado opcional por contraseña, guardado local | V1-21, V1-34 | 2026-10-20 |
+| 24 | Acepto la propuesta | Bloqueo de app y ocultar montos no son requisito de v1; P3-2 es suficiente | P3-2 sin cambios | 2026-10-20 |
+| 25 | Acepto la propuesta, con gestión interna de errores solo para el desarrollador y exportable a agentes; telemetría y reportes de fallos externos al backlog | Sin telemetría ni reportes externos en v1; registro local de diagnóstico en modo desarrollador, exportable | V1-30 (nuevo); P4-7 (nuevo) | 2026-10-20 |
+| 26 | Acepto la propuesta | Presupuesto = límite mensual por Categoría, sin rollover ni proyección | P2-4 sin cambios | 2026-10-20 |
+| 27 | Acepto la propuesta | Reportes mínimos de v1 además del resumen mensual: comparativo con el mes anterior y búsqueda de texto; sin calendario | V1-35, V1-36 | 2026-10-20 |
+| 28 | Descartado: no se comparte; solo se registra la parte propia | Sin gastos compartidos ni planes para otras personas en el alcance previsto; en un gasto dividido se registra únicamente lo que le toca al usuario | P4-2 y P4-3 pierden justificación (sin cambios aplicados aún) | 2026-10-20 |
+| 29 | Solo BBVA crédito | Acepto la propuesta: v1 con un solo banco; parsers por banco como plugin | V1-20, P2-1 sin cambios | 2026-10-20 |
