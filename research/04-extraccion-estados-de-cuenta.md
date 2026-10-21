@@ -44,11 +44,38 @@ Muestra: 2 estados consecutivos de una misma tarjeta, analizados de forma local 
 - **Formato:** PDF con texto real (miles de caracteres por página), sin contraseña, 8 y 9 páginas, tamaño carta, PDF 1.4, generado por Quadient Inspire. Contradice el supuesto de contraseña por RFC de los blogs: en estos dos no hubo cifrado (puede variar por producto o canal de descarga, sin verificar). Las imágenes embebidas (9 y 27) parecen decorativas (sospecha).
 - **Fechas:** `DD-mmm-AAAA` con año completo; el riesgo "fechas sin año" no aplica a estos estados.
 - **Estructura:** `DESGLOSE DE MOVIMIENTOS` contiene dos tablas: `COMPRAS Y CARGOS DIFERIDOS A MESES SIN INTERESES` (una fecha, columnas de monto original, saldo pendiente, pago requerido, `n de N` y tasa) y `CARGOS,COMPRAS Y ABONOS REGULARES (NO A MESES)` (dos fechas, descripción, monto con signo: `+ $` cargos y `- $` abonos). Muchas descripciones terminan con el patrón `***NNNN` (últimos dígitos de tarjeta).
-- **Volumen:** estado A, 34 cargos y 2 abonos regulares; estado B, 29 cargos y 1 abono regular; 8 líneas `NN DE NN` (mensualidades MSI) en ambos.
-- **Cuadre contra el resumen:** los abonos suman exactamente lo que dice "Pagos y abonos" en ambos estados. Los cargos regulares no cuadran con la suma simple del desglose; en el estado B las mensualidades MSI sí suman igual que "Cargos compras a meses (capital)". Causa del descuadre de cargos: sin identificar. La verificación V1-18 es necesaria y F0-2 debe resolver este punto.
+- **Volumen:** estado A, 34 cargos y 2 abonos regulares; estado B, 29 cargos y 1 abono regular; mensualidades MSI dentro del desglose regular: 7 (estado A) y 8 (estado B); filas de la tabla MSI: 7 (A) y 6 (B). La diferencia en B (8 frente a 6) queda sin verificar (sospecha: planes en su último periodo).
+- **Cuadre contra el resumen:** los abonos suman exactamente lo que dice "Pagos y abonos" en ambos estados. Los cargos regulares no cuadran con la suma simple del desglose; en el estado B las mensualidades MSI sí suman igual que "Cargos compras a meses (capital)". El descuadre quedó explicado en F0-2 (ver "Comparación de librerías de extracción" abajo).
 - **Moneda extranjera:** cero líneas con USD u otra divisa en ambos estados; el caso USD y el Emparejamiento (V1-19) quedan sin verificar con esta muestra.
 - **Resumen:** trae fecha de corte, fecha límite de pago, pago para no generar intereses, pago mínimo, saldo deudor total y límite de crédito (insumos de P2-7).
 - **Sin verificar:** otros meses o productos (débito, nómina), cuál de las dos fechas es la de operación y cuál la de cargo, y el formato de cargos por intereses, comisiones e IVA.
+
+#### Comparación de librerías de extracción (F0-2, 2026-10-21)
+
+Los mismos 2 estados, 4 opciones en entornos aislados fuera del repo (versiones fijadas desde PyPI y npm) y un único parser compartido sobre las palabras con coordenadas, para que la comparación sea justa. Los reportes solo contienen conteos, tiempos y formas enmascaradas. Los entornos y scripts viven en el scratchpad de la sesión y no se conservan en el repo.
+
+**Eficacia:** idéntica en las cuatro, en ambos estados. Mismas filas, montos, filas MSI y cifras del resumen; la identidad del resumen (adeudo anterior + cargos regulares + capital a meses + intereses + comisiones + IVA - pagos = saldo deudor) se cumple y los abonos suman lo que dice "Pagos y abonos". Cada librería deja solo algunos glifos de símbolos sin mapear, ninguno en montos ni fechas. Hallazgo práctico: el resumen está en dos columnas y `pdftotext -layout` las mezcla; se separan con las coordenadas (x).
+
+| Opción | Tiempo (estado completo, caliente) | Arranque en frío | Memoria pico | Instalación | Licencia | ¿Corre en la app? |
+|---|---|---|---|---|---|---|
+| pdfplumber 0.11.10 | ~0.8-1.0 s (9-10 págs/s) | 1.2 s | 82 MB | 74 MB, 8 paquetes | MIT | No (Python) |
+| PyMuPDF 2.0 | ~20 ms (380-420 págs/s) | 1.14 s | 140 MB | 296 MB, 12 paquetes | AGPL o de pago | No (Python) |
+| pdf.js (`pdfjs-dist` 6.4.299) | ~80-90 ms (~100 págs/s) | 0.5 s | 120 MB | 71 MB, 3 paquetes | Apache-2.0 | Sí (el paquete incluye build de navegador) |
+| poppler `pdftotext` 24.02 | ~60 ms (~135 págs/s) | 0.12 s | 18 MB | ya instalado | GPL | No (binario externo) |
+
+- Leer solo las páginas 4 y 5 cuesta entre 27 % y 36 % del tiempo total en todas las opciones.
+- PyMuPDF 2.0 instala `onnxruntime`, `pymupdf-layout` y `pymupdf4llm`; con `--no-deps` extrae las mismas palabras, importa en 0.15 s y llega a 57 MB.
+- **Decisión:** pdf.js (ver `08-backlog.md`). Es la única que corre en el stack de la app (React y Capacitor), iguala la eficacia de las demás, es unas 10 veces más rápida que pdfplumber y tiene licencia permisiva. PyMuPDF queda descartado por AGPL. pdfplumber solo sirve para scripts de apoyo fuera de la app.
+
+**Por qué los cargos no cuadraban con la suma simple.** Las filas `+ $` no son todas compras regulares. Cargos regulares del resumen = filas de cargo que no son mensualidades MSI, menos el capital completo de las compras nuevas a meses (aparece como cargo en el desglose), menos la fila de comisión. El modelo coincide exacto en ambos estados con las cuatro librerías. Las mensualidades MSI suman exactamente el "capital a meses" del resumen. Hipótesis descartadas: duplicados al cruzar página, monto en otra columna, filas de IVA o intereses, y filas de la tabla MSI leídas como movimientos. El total impreso "Total cargos" no sirve de ancla: coincide con el detalle en el estado B pero no en el A (omite la comisión y una compra nueva a meses).
+
+**Límites:**
+- pdf.js no se probó en un navegador ni en un WebView de Capacitor; que corra ahí se apoya solo en el contenido del paquete.
+- Las filas de compra nueva a meses y de comisión se identificaron por igualdad de monto, no por descripción.
+- Muestra de 2 estados de la misma tarjeta y plantilla; las constantes de layout son de esta plantilla BBVA.
+- Arranque en frío: mediana de 5 procesos nuevos; memoria pico: una corrida por librería.
+- Las cajas de palabras de pdf.js son aproximadas (divide los textos proporcionalmente).
+- No hay lista "correcta" de filas hecha a mano; la eficacia se midió por consenso entre librerías y por las identidades del resumen.
 
 ### HSBC México
 
