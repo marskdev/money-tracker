@@ -126,7 +126,7 @@ Ordenadas por prioridad tentativa; no se descarta ninguna.
 | P4-2 | ~~Multiusuario y nube~~ Descartado (entrevista, pregunta 28) | P4-1 |
 | P4-3 | ~~Gastos compartidos~~ Descartado (entrevista, pregunta 28) | P4-2 |
 | P4-4 | Patrimonio neto e inversiones (CETES, Afore) | P2-5 |
-| P4-5 | Aviso de privacidad y cumplimiento LFPDPPP antes de abrir a terceros | P4-2 |
+| P4-5 | Aviso de privacidad y cumplimiento LFPDPPP antes de abrir a terceros o de activar P4-7 | Ninguna |
 | P4-6 | Sincronización bancaria vía agregador (solo si cambia la restricción de costo) | — |
 | P4-7 | Telemetría y reportes de fallos externos, con filtrado de datos financieros antes de enviar | P4-5, V1-30 |
 
