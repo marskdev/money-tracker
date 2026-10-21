@@ -80,11 +80,15 @@ Antes de escribir la app. Cada una cierra un "(sin verificar)" de la investigaci
 - [ ] **V1-19** Coincidencias manual↔importado con confirmación; al coincidir, el gasto USD pasa a confirmado.
 - [ ] **V1-20** Arquitectura de parsers por banco (plugin) para sumar bancos sin tocar el núcleo.
 - [ ] **V1-28** Deshacer un lote de importación completo.
+- [ ] **V1-31** Recordar los descartes: al reimportar un estado, las líneas borradas no reaparecen.
+- [ ] **V1-32** Guardar siempre el texto original del banco junto al nombre limpio del comercio.
+- [ ] **V1-33** Revisión por swipe de tarjetas como alternativa a la lista (V1-15); se decide después de probar ambas si se conserva una o las dos.
 
 ### Datos y respaldo
 - [ ] **V1-21** Exportar todo a JSON y CSV; importar el JSON.
 - [ ] **V1-22** Aviso de último respaldo y recordatorio, dado el riesgo de borrado en iOS.
 - [ ] **V1-23** Solicitar almacenamiento persistente (`persist()`) donde exista.
+- [ ] **V1-34** Cifrado opcional del respaldo JSON con contraseña; guardado local.
 
 ### Calidad
 - [ ] **V1-24** Formato es-MX (MXN, fechas), modo oscuro, texto grande.
@@ -92,6 +96,9 @@ Antes de escribir la app. Cada una cierra un "(sin verificar)" de la investigaci
 - [ ] **V1-26** Tests con estados de cuenta sintéticos (golden files).
 - [ ] **V1-27** Resumen mensual simple: total y por categoría.
 - [ ] **V1-29** Totales y resúmenes excluyen lo *por revisar*; los totales muestran su suma como cifra aparte.
+- [ ] **V1-30** Registro local de errores y diagnóstico, visible solo en modo desarrollador y exportable (montos y conceptos redactados por defecto) para analizarlo con agentes.
+- [ ] **V1-35** Comparativo del gasto con el mes anterior.
+- [ ] **V1-36** Búsqueda de texto en los Movimientos.
 
 ## Fases posteriores
 
@@ -116,11 +123,12 @@ Ordenadas por prioridad tentativa; no se descarta ninguna.
 | P3-5 | Captura por notificación, voz o widget | V1-1 |
 | P3-6 | Publicación en tiendas con Capacitor (configuración base ya en el repo; faltan `appId` definitivo, `cap add android`, iconos y CI) | F0-4, F0-5 |
 | P4-1 | Sincronización multi-dispositivo | UUID, owner, tombstones |
-| P4-2 | Multiusuario y nube | P4-1 |
-| P4-3 | Gastos compartidos | P4-2 |
+| P4-2 | ~~Multiusuario y nube~~ Descartado (entrevista, pregunta 28) | P4-1 |
+| P4-3 | ~~Gastos compartidos~~ Descartado (entrevista, pregunta 28) | P4-2 |
 | P4-4 | Patrimonio neto e inversiones (CETES, Afore) | P2-5 |
 | P4-5 | Aviso de privacidad y cumplimiento LFPDPPP antes de abrir a terceros | P4-2 |
 | P4-6 | Sincronización bancaria vía agregador (solo si cambia la restricción de costo) | — |
+| P4-7 | Telemetría y reportes de fallos externos, con filtrado de datos financieros antes de enviar | P4-5, V1-30 |
 
 ## Decisiones diferidas
 
