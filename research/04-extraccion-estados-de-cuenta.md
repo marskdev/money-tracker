@@ -37,6 +37,19 @@ Fecha de investigación: 2026-10-10. Todo lo no confirmado en fuente primaria es
 - Débito vs crédito: formatos distintos en layout (los parsers de la sección 2 los tratan como plantillas separadas: "Débito/Nómina" y "Tarjeta de crédito"). Fuente: https://github.com/Chere3/cuadra
 - Texto vs imagen: PDFs de BBVA se leen con pdfplumber/pdftotext en los parsers listados, por lo que son text-based. Fuente: https://github.com/bernardogaona101/multi-bank-account-status
 
+#### Verificación con estados reales (BBVA tarjeta de crédito, 2026-10-21)
+
+Muestra: 2 estados consecutivos de una misma tarjeta, analizados de forma local con `pdfinfo`, `pdftotext -layout` y Python; sin copiarlos al repo ni registrar montos o comercios. Cierra parcialmente F0-1.
+
+- **Formato:** PDF con texto real (miles de caracteres por página), sin contraseña, 8 y 9 páginas, tamaño carta, PDF 1.4, generado por Quadient Inspire. Contradice el supuesto de contraseña por RFC de los blogs: en estos dos no hubo cifrado (puede variar por producto o canal de descarga, sin verificar). Las imágenes embebidas (9 y 27) parecen decorativas (sospecha).
+- **Fechas:** `DD-mmm-AAAA` con año completo; el riesgo "fechas sin año" no aplica a estos estados.
+- **Estructura:** `DESGLOSE DE MOVIMIENTOS` contiene dos tablas: `COMPRAS Y CARGOS DIFERIDOS A MESES SIN INTERESES` (una fecha, columnas de monto original, saldo pendiente, pago requerido, `n de N` y tasa) y `CARGOS,COMPRAS Y ABONOS REGULARES (NO A MESES)` (dos fechas, descripción, monto con signo: `+ $` cargos y `- $` abonos). Muchas descripciones terminan con el patrón `***NNNN` (últimos dígitos de tarjeta).
+- **Volumen:** estado A, 34 cargos y 2 abonos regulares; estado B, 29 cargos y 1 abono regular; 8 líneas `NN DE NN` (mensualidades MSI) en ambos.
+- **Cuadre contra el resumen:** los abonos suman exactamente lo que dice "Pagos y abonos" en ambos estados. Los cargos regulares no cuadran con la suma simple del desglose; en el estado B las mensualidades MSI sí suman igual que "Cargos compras a meses (capital)". Causa del descuadre de cargos: sin identificar. La verificación V1-18 es necesaria y F0-2 debe resolver este punto.
+- **Moneda extranjera:** cero líneas con USD u otra divisa en ambos estados; el caso USD y el Emparejamiento (V1-19) quedan sin verificar con esta muestra.
+- **Resumen:** trae fecha de corte, fecha límite de pago, pago para no generar intereses, pago mínimo, saldo deudor total y límite de crédito (insumos de P2-7).
+- **Sin verificar:** otros meses o productos (débito, nómina), cuál de las dos fechas es la de operación y cuál la de cargo, y el formato de cargos por intereses, comisiones e IVA.
+
 ### HSBC México
 
 - Estados de cuenta electrónicos en Banca por Internet: Administrar > Estados de cuenta electrónicos > Consultar; requiere código de acceso generado con Token Móvil de la app. Formato elegible: PDF o Archivo XML. Fuente: https://www.hsbc.com.mx/content/dam/hsbc/mx/documents/digital/estados-de-cuenta/descarga_estados_cuenta.pdf
