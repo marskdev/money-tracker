@@ -34,6 +34,7 @@ Origen: entrevista y investigación (`00-indice.md`, `01`-`07`). Estado: borrado
 | Stack | React + Vite + TypeScript, TanStack Router y Query, zod, pnpm; un solo paquete (monorepo con Turborepo cuando haya segunda app o backend) |
 | Arquitectura | Hexagonal: `domain`, `application`, `infrastructure`, `ui`; límites impuestos con oxlint (ver `AGENTS.md`) |
 | Persistencia local | SQLite nativo con `@capacitor-community/sqlite`; `localStorage` e IndexedDB no son almacén de datos financieros en nativo (el SO puede purgarlos) |
+| Extracción de PDF | pdf.js (`pdfjs-dist`), 100 % local; corre en el stack de la app e iguala la eficacia de pdfplumber y PyMuPDF en 2 estados BBVA (ver `04`) |
 | Calidad | oxlint + oxfmt; Vitest + Testing Library; Playwright (Chromium) |
 | Compilación móvil | En la nube (GitHub Actions o Codemagic); sin Android Studio local por limitaciones de hardware |
 | Nombre | Kuenty; `appId` `dev.marsk.kuenty` (dominio `marsk.dev`). Descartados Centi (ya existe en iOS), Quincy/Quinci (marcas cercanas en software) y Kuenti (`.app`, `.com` y usuario de GitHub ocupados) |
@@ -42,8 +43,8 @@ Origen: entrevista y investigación (`00-indice.md`, `01`-`07`). Estado: borrado
 
 Antes de escribir la app. Cada una cierra un "(sin verificar)" de la investigación.
 
-- [ ] **F0-1** Obtener 2-3 estados de cuenta reales de BBVA crédito y confirmar: PDF con texto o imagen, contraseña, estructura de movimientos, MSI, fechas sin año. Parcial (2026-10-21, 2 estados): texto sin contraseña, fechas con año, MSI presente, abonos cuadran y cargos no; ver `04-extraccion-estados-de-cuenta.md`. Falta una muestra con compra en USD.
-- [ ] **F0-2** Probar extracción local sobre esos PDFs (pdf.js / pdfplumber / PyMuPDF) y medir qué falla.
+- [ ] **F0-1** Obtener 2-3 estados de cuenta reales de BBVA crédito y confirmar: PDF con texto o imagen, contraseña, estructura de movimientos, MSI, fechas sin año. Parcial (2026-10-21, 2 estados): texto sin contraseña, fechas con año, MSI presente, abonos y cargos cuadran (modelo en `04`); ver `04-extraccion-estados-de-cuenta.md`. Falta una muestra con compra en USD.
+- [x] **F0-2** Probar extracción local sobre esos PDFs (pdf.js / pdfplumber / PyMuPDF) y medir qué falla. Hecho (2026-10-21): eficacia idéntica en las cuatro opciones; elegida pdf.js; el descuadre de cargos quedó explicado; ver `04-extraccion-estados-de-cuenta.md`. Falta probar pdf.js en un WebView de Capacitor.
 - [ ] **F0-3** Confirmar en fuente primaria la serie FIX de la API SIE de Banxico, token y términos de uso.
 - [ ] **F0-4** Probar en un iPhone real: ¿persisten los datos de una PWA instalada tras >7 días? ¿qué pasa al borrar el icono?
 - [ ] **F0-5** Probar en iOS instalado: descarga/exportación de archivos, compartir, cámara.
@@ -132,9 +133,9 @@ Ordenadas por prioridad tentativa; no se descarta ninguna.
 
 ## Decisiones diferidas
 
-- **Librería PDF** para la importación: se decide con los resultados de F0-2. El resto del stack quedó decidido (ver Decisiones cerradas).
+- **Prueba de pdf.js en un WebView de Capacitor** (Android): pendiente. La elección se basa en el contenido del paquete y en pruebas en Node, no en un WebView real. El resto del stack quedó decidido (ver Decisiones cerradas).
 - **Almacenamiento local en la versión web**: SQLite nativo ya decidido para Capacitor; falta decidir qué usa la PWA en navegador (IndexedDB o SQLite en wasm/OPFS) y si comparte datos con la app nativa.
-- **Mensualidades MSI en el importador de v1:** los estados reales las traen cada mes (8 líneas en ambos); decidir si se ignoran, se importan como Gasto o se marcan aparte, aunque el soporte completo de MSI sea P2-8.
+- **Mensualidades MSI en el importador de v1:** los estados reales las traen cada mes (7 y 8 mensualidades en los dos estados analizados); decidir si se ignoran, se importan como Gasto o se marcan aparte, aunque el soporte completo de MSI sea P2-8.
 - **Estrategia de sincronización** (CRDT, op-log, last-write-wins): decidir al abordar P4-1.
 - **Distribución** (PWA pura vs tiendas): decidir tras F0-4/F0-5. Capacitor ya está configurado como vía a tiendas.
 
